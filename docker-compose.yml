@@ -1,7 +1,7 @@
-django:
+foosball:
   build: .
-  container_name: foosball_scores
-  hostname: foosball_scores
+  container_name: foosball
+  hostname: foosball
   ports:
     - "8081:8000"
   volumes:
