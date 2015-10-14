@@ -3,7 +3,7 @@ from .models import Player, Game
 
 
 class PlayerAdmin(admin.ModelAdmin):
-    readonly_fields = ['score', 'wins', 'losses']
+    readonly_fields = ['score',]
     list_display = ('name', 'score', 'wins', 'losses')
 admin.site.register(Player, PlayerAdmin)
 
