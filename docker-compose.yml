@@ -1,0 +1,10 @@
+foosball:
+  build: .
+  container_name: foosball
+  hostname: foosball
+  ports:
+    - "8081:8000"
+  volumes:
+    - ./foosball_scores:/home/django/foosball_scores/
+  command: bash -c "python /home/django/foosball_scores/manage.py migrate && python /home/django/foosball_scores/manage.py runserver 0.0.0.0:8000"
+
