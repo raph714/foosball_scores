@@ -128,63 +128,65 @@ class Game(models.Model):
             self.save()
 
     def calculate_v2(self):
-        if not self.scores_calculated:
-            #calculate scores
-            #get cumalative power rankings for each team
-            team_a_power = 0
-            for p in self.team_a_players.all():
-                team_a_power = team_a_power + p.score
+        for score in self.score_changes.all():
+            score.delete()
 
-                #record the win/loss
-                if self.team_a_score > self.team_b_score:
-                    p.wins = p.wins + 1
-                else:
-                    p.losses = p.losses + 1
-                p.save()
+        #calculate scores
+        #get cumalative power rankings for each team
+        team_a_power = 0
+        for p in self.team_a_players.all():
+            team_a_power = team_a_power + p.score
 
-            team_b_power = 0
-            for p in self.team_b_players.all():
-                team_b_power = team_b_power + p.score
+            #record the win/loss
+            if self.team_a_score > self.team_b_score:
+                p.wins = p.wins + 1
+            else:
+                p.losses = p.losses + 1
+            p.save()
 
-                #record the win/loss
-                if self.team_a_score < self.team_b_score:
-                    p.wins = p.wins + 1
-                else:
-                    p.losses = p.losses + 1
-                p.save()
+        team_b_power = 0
+        for p in self.team_b_players.all():
+            team_b_power = team_b_power + p.score
 
-            winners = self.team_a_players.all()
-            losers = self.team_b_players.all()
-
-            #calculate if team a won
-            power_ratio = float(team_a_power) / float(team_b_power)
-            score_ratio = float(self.team_a_score) - float(self.team_b_score)
-
+            #record the win/loss
             if self.team_a_score < self.team_b_score:
-                winners = self.team_b_players.all()
-                losers = self.team_a_players.all()
-                
-                #calculate if team a won
-                power_ratio = float(team_b_power) / float(team_a_power)
-                score_ratio = float(self.team_b_score) - float(self.team_a_score)
+                p.wins = p.wins + 1
+            else:
+                p.losses = p.losses + 1
+            p.save()
+
+        winners = self.team_a_players.all()
+        losers = self.team_b_players.all()
+
+        #calculate if team a won
+        power_ratio = float(team_a_power) / float(team_b_power)
+        score_ratio = float(self.team_a_score) - float(self.team_b_score)
+
+        if self.team_a_score < self.team_b_score:
+            winners = self.team_b_players.all()
+            losers = self.team_a_players.all()
             
+            #calculate if team a won
+            power_ratio = float(team_b_power) / float(team_a_power)
+            score_ratio = float(self.team_b_score) - float(self.team_a_score)
+        
 
-            points = (score_ratio / power_ratio) * 10
+        points = (score_ratio / power_ratio) * 10
 
-            #now add points to the winners
-            pts_per_player = points / winners.count()
-            for player in winners:
-                score = ScoreChange(player=player, game=self, change=pts_per_player)
-                score.save()
+        #now add points to the winners
+        pts_per_player = points / winners.count()
+        for player in winners:
+            score = ScoreChange(player=player, game=self, change=pts_per_player)
+            score.save()
 
-            #then take the points from the losers.
-            pts_per_player = points / losers.count()
-            for player in losers:
-                score = ScoreChange(player=player, game=self, change=pts_per_player * -1)
-                score.save()
+        #then take the points from the losers.
+        pts_per_player = points / losers.count()
+        for player in losers:
+            score = ScoreChange(player=player, game=self, change=pts_per_player * -1)
+            score.save()
 
-            #make sure it only happens once
-            self.scores_calculated = True
-            self.save()
+        #make sure it only happens once
+        self.scores_calculated = True
+        self.save()
 
             
