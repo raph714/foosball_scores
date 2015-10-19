@@ -1,6 +1,6 @@
 FROM django:1.8.5-python2
 
-RUN groupadd django && useradd --create-home --home-dir /home/django -g django django
+RUN groupadd --gid 1002 django && useradd --create-home --home-dir /home/django --uid 1002 -g django django
 WORKDIR /home/django
 
 ADD foosball_scores/requirements.txt ./
