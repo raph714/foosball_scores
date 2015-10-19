@@ -21,21 +21,8 @@ class GameAdmin(admin.ModelAdmin):
 
     def save_related(self, request, form, formsets, change):
         super(GameAdmin, self).save_related(request, form, formsets, change)
-        # game = form.instance
-        # game.calculate_v2()
-        for s in ScoreChange.objects.all():
-            s.delete()
-
-        for p in Player.objects.all():
-            p.score = 1000
-            p.wins = 0
-            p.losses = 0
-            p.save()
-
-        for g in Game.objects.order_by('date_created',).all():
-            g.scores_calculated = False
-            g.save()
-            g.calculate_v2()
+        game = form.instance
+        game.calculate_v2()
 
     def team_a(self, obj):
         return ", ".join([p.name for p in obj.team_a_players.all()])
