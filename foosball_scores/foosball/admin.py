@@ -5,10 +5,13 @@ from django.db.models import Sum
 
 class PlayerAdmin(admin.ModelAdmin):
     readonly_fields = ['score',]
-    list_display = ('name', 'score', 'wins', 'losses', 'total_games')
+    list_display = ('name', 'score', 'wins', 'losses', 'total_games', 'avg_pts_per_game')
 
     def score(self, obj):
         return obj.score
+
+    def avg_pts_per_game(self, obj):
+        return obj.score / self.total_games(obj)
 
     def total_games(self, obj):
         return obj.wins + obj.losses
