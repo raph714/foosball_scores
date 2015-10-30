@@ -11,7 +11,7 @@ class PlayerAdmin(admin.ModelAdmin):
         return obj.score
 
     def avg_pts_per_game(self, obj):
-        return obj.score - 1000 / self.total_games(obj)
+        return (obj.score - 1000) / self.total_games(obj)
 
     def total_games(self, obj):
         return obj.wins + obj.losses
