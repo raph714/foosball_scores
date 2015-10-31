@@ -1,0 +1,77 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE HTML>
+<html>
+
+<head>  
+	<script type="text/javascript">
+	window.onload = function () {
+		var chart = new CanvasJS.Chart("chartContainer",
+		{
+			zoomEnabled: false,
+                        animationEnabled: true,
+			title:{
+				text: "Foolsball"
+			},
+			axisY2:{
+				valueFormatString:"0",
+				
+				maximum: 1500,
+				minimum: 300,
+				interval: 100,
+				interlacedColor: "#F5F5F5",
+				gridColor: "#D7D7D7",      
+	 			tickColor: "#D7D7D7"								
+			},
+                        theme: "theme2",
+                        toolTip:{
+                                shared: true
+                        },
+			legend:{
+				verticalAlign: "bottom",
+				horizontalAlign: "center",
+				fontSize: 11,
+				fontFamily: "Lucida Sans Unicode"
+
+			},
+			data: [
+			{% for object in object_list %}
+				{        
+					type: "line",
+					lineThickness:1,
+					axisYType:"secondary",
+					showInLegend: true,           
+					name: "{{object.name}}", 
+					dataPoints: [
+					{% for o in object.score_history %}
+						{{o}}
+					{% endfor %}
+					]
+				},
+			{% endfor %}
+
+			],
+          legend: {
+            cursor:"pointer",
+            itemclick : function(e) {
+              if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+              e.dataSeries.visible = false;
+              }
+              else {
+                e.dataSeries.visible = true;
+              }
+              chart.render();
+            }
+          }
+        });
+
+chart.render();
+}
+</script>
+  <script type="text/javascript" src="{% static "js/canvasjs.min.js" %}"></script>
+</head>
+<body>
+	<div id="chartContainer" style="height: 900px; width: 100%;">
+	</div>
+</body>
+</html>

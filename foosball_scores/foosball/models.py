@@ -14,6 +14,17 @@ class Player(models.Model):
     def score(self):
         return ScoreChange.objects.filter(player=self).aggregate(Sum('change'))['change__sum'] + 1000
 
+    @property
+    def score_history(self):
+        scores = ScoreChange.objects.filter(player=self).order_by('game__date_created')
+
+        by_date = []
+        score = 1000
+        for s in scores.all():
+            score = score + s.change
+            by_date.append('{ x: new Date(%s, %s, %s, %s, %s), y: %s },' % (s.game.date_created.year, s.game.date_created.month, s.game.date_created.day, s.game.date_created.hour, s.game.date_created.minute, score) )
+        return by_date
+
 
 class ScoreChange(models.Model):
     player = models.ForeignKey(Player, related_name='score_changes')
@@ -31,6 +42,9 @@ class Game(models.Model):
     team_a_score = models.PositiveIntegerField(default=0)
     team_b_score = models.PositiveIntegerField(default=0)
     scores_calculated = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['date_created', ]
 
     def calculate_scores(self):
         if not self.scores_calculated:
