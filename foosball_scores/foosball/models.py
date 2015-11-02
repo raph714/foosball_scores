@@ -22,7 +22,7 @@ class Player(models.Model):
         score = 1000
         for s in scores.all():
             score = score + s.change
-            by_date.append('{ x: new Date(%s, %s, %s, %s, %s), y: %s },' % (s.game.date_created.year, s.game.date_created.month, s.game.date_created.day, s.game.date_created.hour, s.game.date_created.minute, score) )
+            by_date.append('{ x: %s, y: %s },' % (s.game.pk, score) )
         return by_date
 
 
