@@ -12,7 +12,10 @@ class Player(models.Model):
 
     @property
     def score(self):
-        return ScoreChange.objects.filter(player=self).aggregate(Sum('change'))['change__sum'] + 1000
+        score_change = ScoreChange.objects.filter(player=self).aggregate(Sum('change'))['change__sum']
+        if score_change:
+            score_change = score_change + 1000
+        return score_change
 
     @property
     def score_history(self):
