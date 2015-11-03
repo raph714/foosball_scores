@@ -15,6 +15,8 @@ class Player(models.Model):
         score_change = ScoreChange.objects.filter(player=self).aggregate(Sum('change'))['change__sum']
         if score_change:
             score_change = score_change + 1000
+        else:
+            score_change = 1000
         return score_change
 
     @property
