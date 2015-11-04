@@ -21,6 +21,7 @@ admin.site.register(Player, PlayerAdmin)
 class GameAdmin(admin.ModelAdmin):
     exclude = ['scores_calculated']
     list_display = ('date_created', 'team_a', 'team_b', 'team_a_score', 'team_b_score', 'team_changes')
+    ordering = ('-date_created',)
 
     def save_related(self, request, form, formsets, change):
         super(GameAdmin, self).save_related(request, form, formsets, change)
