@@ -18,7 +18,7 @@ from django.contrib import admin
 from foosball.views import ScoresByPlayerDetail, ScoresByPlayerCombinationDetail
 
 urlpatterns = [
-	url(r'^$', ScoresByPlayerDetail.as_view(), name='index'),
-	url(r'^combos/$', ScoresByPlayerCombinationDetail.as_view(), name='player_combos'),
+    url(r'^$', ScoresByPlayerDetail.as_view(), name='index'),
+    url(r'^combos/$', ScoresByPlayerCombinationDetail.as_view(), name='player_combos'),
     url(r'^admin/', include(admin.site.urls)),
 ]

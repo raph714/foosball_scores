@@ -15,7 +15,7 @@ class ScoresByPlayerDetail(ListView):
         return context
 
 class ScoresByPlayerCombinationDetail(ListView):
-	template = '/foosball/player_combinations.html'
+    template = '/foosball/player_combinations.html'
     model = Player
 
     def get_context_data(self, **kwargs):
@@ -23,15 +23,15 @@ class ScoresByPlayerCombinationDetail(ListView):
         all_players = Player.objects.all();
         playerPairs = []
         for p1 in all_players:
-        	for p2 in all_players:
-        		if p1 != p2:
-        			playerSet = set([p1, p2])
-        			playerPairs.append(playerSet)
+            for p2 in all_players:
+                if p1 != p2:
+                    playerSet = set([p1, p2])
+                    playerPairs.append(playerSet)
 
         gamesForPlayers = {}
         for playerSet in playerPairs:
-        	games = Game.objects.filter(Q(team_a_players__in=playerSet) | Q(team_b_players__in=playerSet))
-        	gamesForPlayers[playerSet] = games
+            games = Game.objects.filter(Q(team_a_players__in=playerSet) | Q(team_b_players__in=playerSet))
+            gamesForPlayers[playerSet] = games
 
         context['games'] = gamesForPlayers
         context = super(ScoresByPlayerCombinationDetail, self).get_context_data(**kwargs)
