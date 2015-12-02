@@ -80,9 +80,9 @@ class Game(models.Model):
             if self.team_a_score > self.team_b_score:
                 #calculate if team a won
                 power_ratio = float(team_a_power) / float(team_b_power)
-                score_ratio = float(self.team_a_score) - float(self.team_b_score)
+                score_difference = float(self.team_a_score) - float(self.team_b_score)
 
-                points = (score_ratio / power_ratio) * 10
+                points = (score_difference / power_ratio) * 10
 
                 #now distribute the points from losers to winners.
                 a1 = self.team_a_players.all()[0]
@@ -112,9 +112,9 @@ class Game(models.Model):
             else: 
                 #calculate if team b won
                 power_ratio = float(team_b_power) / float(team_a_power)
-                score_ratio = float(self.team_b_score) - float(self.team_a_score)
+                score_difference = float(self.team_b_score) - float(self.team_a_score)
 
-                points = (score_ratio / power_ratio) * 10
+                points = (score_difference / power_ratio) * 10
 
                 #now distribute the points from losers to winners.
                 b1 = self.team_b_players.all()[0]
@@ -179,7 +179,7 @@ class Game(models.Model):
 
         #calculate if team a won
         power_ratio = float(team_a_power) / float(team_b_power)
-        score_ratio = float(self.team_a_score) - float(self.team_b_score)
+        score_difference = float(self.team_a_score) - float(self.team_b_score)
 
         if self.team_a_score < self.team_b_score:
             winners = self.team_b_players.all()
@@ -187,10 +187,11 @@ class Game(models.Model):
             
             #calculate if team a won
             power_ratio = float(team_b_power) / float(team_a_power)
-            score_ratio = float(self.team_b_score) - float(self.team_a_score)
+            score_difference = float(self.team_b_score) - float(self.team_a_score)
         
-
-        points = (score_ratio / power_ratio) * 10
+        player_count = winners.count() + losers.count()
+        total_power = team_a_power + team_b_power
+        points = (score_difference / power_ratio) * (total_power / (player_count * 100))
 
         #now add points to the winners
         pts_per_player = points / winners.count()
