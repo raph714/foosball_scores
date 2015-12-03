@@ -28,6 +28,9 @@ class GameAdmin(admin.ModelAdmin):
         game = form.instance
         game.calculate_v2()
 
+        for g in Game.objects.all():
+            g.calculate_v2()
+
     def team_a(self, obj):
         return ", ".join([p.name for p in obj.team_a_players.all()])
 
