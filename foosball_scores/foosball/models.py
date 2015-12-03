@@ -191,7 +191,7 @@ class Game(models.Model):
             power_ratio = float(team_b_power) / float(team_a_power)
             score_difference = float(self.team_b_score) - float(self.team_a_score)
         
-        player_count = winners.count() + losers.count()
+        player_count = winners.count()
         total_power = team_a_power + team_b_power
         points = (score_difference / power_ratio) * (loser_power / (player_count * 100))
 
