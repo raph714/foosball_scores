@@ -196,7 +196,7 @@ class Game(models.Model):
         #now add points to the winners
         pts_per_player = points / winners.count()
 
-        if winners.count() == 1 && losers.count() == 1:
+        if player_count == 2:
             pts_per_player = pts_per_player / 2
 
         for player in winners:
