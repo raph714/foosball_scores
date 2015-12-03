@@ -176,6 +176,7 @@ class Game(models.Model):
 
         winners = self.team_a_players.all()
         losers = self.team_b_players.all()
+        loser_power = team_b_power
 
         #calculate if team a won
         power_ratio = float(team_a_power) / float(team_b_power)
@@ -184,6 +185,7 @@ class Game(models.Model):
         if self.team_a_score < self.team_b_score:
             winners = self.team_b_players.all()
             losers = self.team_a_players.all()
+            loser_power = team_a_power
             
             #calculate if team a won
             power_ratio = float(team_b_power) / float(team_a_power)
@@ -191,7 +193,7 @@ class Game(models.Model):
         
         player_count = winners.count() + losers.count()
         total_power = team_a_power + team_b_power
-        points = (score_difference / power_ratio) * (total_power / (player_count * 100))
+        points = (score_difference / power_ratio) * (loser_power / (player_count * 100))
 
         #now add points to the winners
         pts_per_player = points / winners.count()
