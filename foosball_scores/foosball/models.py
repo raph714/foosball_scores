@@ -193,7 +193,7 @@ class Game(models.Model):
         
         player_count = winners.count()
         total_power = team_a_power + team_b_power
-        points = (score_difference / power_ratio) * (loser_power / 100)
+        points = (score_difference / power_ratio) * (loser_power / 150)
 
         #now add points to the winners
         pts_per_player = points / winners.count()
