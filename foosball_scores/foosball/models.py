@@ -241,7 +241,7 @@ class Game(models.Model):
                     l.save()
 
                 power_ratio = float(w.score) / float(l.score)
-                points = (float(score_difference) / power_ratio) * 2.5
+                points = int((float(score_difference) / power_ratio) * 2.5)
                 score_changes[w] += points
                 score_changes[l] -= points
 
