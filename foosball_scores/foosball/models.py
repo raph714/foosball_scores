@@ -215,40 +215,4 @@ class Game(models.Model):
         self.scores_calculated = True
         self.save()
 
-    def calculate_v3(self):
-        for score in self.score_changes.all():
-            score.delete()
-
-        winners = self.team_a_players.all()
-        losers = self.team_b_players.all()
-        score_difference = self.team_a_score - self.team_b_score
-
-        if self.team_a_score < self.team_b_score:
-            winners = self.team_b_players.all()
-            losers = self.team_a_players.all()
-            score_difference = self.team_b_score - self.team_a_score
-
-        score_changes = {}
-
-        for w in winners:
-            score_changes[w] = 0
-            w.wins++
-            w.save()
-            for l in losers:
-                if l not in score_changes:
-                    score_changes[l] = 0
-                    l.losses++
-                    l.save()
-
-                power_ratio = float(w.score) / float(l.score)
-                points = (float(score_difference) / power_ratio) * 2.5
-                score_changes[w] += points
-                score_changes[l] -= points
-
-        for p in score_changes:
-            score = ScoreChange(player=p, game=self, change=score_changes[p])
-            score.save()
-
-        #make sure it only happens once
-        self.scores_calculated = True
-        self.save()
+            
