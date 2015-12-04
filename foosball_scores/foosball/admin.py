@@ -26,10 +26,10 @@ class GameAdmin(admin.ModelAdmin):
     def save_related(self, request, form, formsets, change):
         super(GameAdmin, self).save_related(request, form, formsets, change)
         game = form.instance
-        game.calculate_v3()
+        game.calculate_v2()
 
         for g in Game.objects.all():
-            g.calculate_v3()
+            g.calculate_v2()
 
     def team_a(self, obj):
         return ", ".join([p.name for p in obj.team_a_players.all()])
