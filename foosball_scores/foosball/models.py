@@ -221,23 +221,23 @@ class Game(models.Model):
 
         winners = self.team_a_players.all()
         losers = self.team_b_players.all()
-        score_difference = self.team_a_score - self.team_b_score
+        score_difference = float(self.team_a_score) - float(self.team_b_score)
 
         if self.team_a_score < self.team_b_score:
             winners = self.team_b_players.all()
             losers = self.team_a_players.all()
-            score_difference = self.team_b_score - self.team_a_score
+            score_difference = float(self.team_b_score) - float(self.team_a_score)
 
         score_changes = {}
 
         for w in winners:
             score_changes[w] = 0
-            w.wins++
+            w.wins = w.wins + 1
             w.save()
             for l in losers:
                 if l not in score_changes:
                     score_changes[l] = 0
-                    l.losses++
+                    l.losses = l.losses + 1
                     l.save()
 
                 power_ratio = float(w.score) / float(l.score)
