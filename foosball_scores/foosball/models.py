@@ -25,9 +25,10 @@ class Player(models.Model):
 
         by_date = []
         score = 1000
+        all_games = Game.objects.all()
         for s in scores.all():
             score = score + s.change
-            by_date.append('{ x: %s, y: %s },' % (s.game.pk, score) )
+            by_date.append('{ x: %s, y: %s },' % (all_games.index(s.game), score) )
         return by_date
 
 
