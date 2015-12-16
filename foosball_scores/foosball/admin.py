@@ -30,6 +30,8 @@ class GameAdmin(admin.ModelAdmin):
             player.wins = 0
             player.losses = 0
             player.save()
+        for sc in ScoreChange.objects.all():
+            sc.delete()
         for game in Game.objects.all().order_by('date_created'):
             game.calculate_v3()
 
