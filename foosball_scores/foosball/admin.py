@@ -30,7 +30,7 @@ class GameAdmin(admin.ModelAdmin):
             player.wins = 0
             player.losses = 0
             player.save()
-        for game in Game.objects.all():
+        for game in Game.objects.all().order_by('date_created'):
             game.calculate_v3()
 
     def team_a(self, obj):
