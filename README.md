@@ -1,4 +1,4 @@
-# Foosball Scores (or any other sport that involves teams really)
+# Foosball Scores (or any other sport that involves random teams really)
 
 Track a leaderboard of players based on games played with varying random teams. The algorithm takes the aggregated scores of the winning and losing teams to distribute points based on the point total of the game. The higher the point differential, the higher the stakes for the team with more points at the start of a match.
 
