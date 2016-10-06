@@ -19,5 +19,8 @@ Each player is initially awarded 1000 points, and moves up and down based on win
 
 `python manage.py runserver 0.0.0.0:8000`
 
-You should then be able to go to `localhost:8000/admin` on your browser and access the site.
+### To use:
+Go to `localhost:8000` to see a graph of the current power rankings and game results.
+
+Go to `localhost:8000/admin` on your browser to add players, record games, and see individual point gains and losses.
 Login and password are both `admin`
